@@ -1,0 +1,39 @@
+[metadata]
+name = "Idle Blink"
+author = "Example Author"
+version = "1.0"
+created = "2026-02-02T12:00:00Z"
+width = 15
+height = 8
+description = "A cat blinking while idle"
+
+[animation]
+fps = 10
+loop = true
+
+[[animation.frames]]
+data = '''
+    /\_/\
+   ( o.o )
+    > ^ <
+   /|   |\
+  (_|   |_)
+'''
+
+[[animation.frames]]
+data = '''
+    /\_/\
+   ( -.- )
+    > ^ <
+   /|   |\
+  (_|   |_)
+'''
+
+[[animation.frames]]
+data = '''
+    /\_/\
+   ( o.o )
+    > ^ <
+   /|   |\
+  (_|   |_)
+'''
