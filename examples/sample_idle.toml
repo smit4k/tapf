@@ -8,7 +8,7 @@ height = 8
 description = "A cat blinking while idle"
 
 [animation]
-fps = 10
+fps = 5
 loop = true
 
 [[animation.frames]]
@@ -32,8 +32,19 @@ data = '''
 [[animation.frames]]
 data = '''
     /\_/\
+   ( ^.^ )
+    > ^ <
+   /|   |\
+  (_|   |_)
+'''
+
+
+[[animation.frames]]
+data = '''
+    /\_/\
    ( o.o )
     > ^ <
    /|   |\
   (_|   |_)
 '''
+

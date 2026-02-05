@@ -17,6 +17,7 @@ pub struct AnimationFile {
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 pub struct Animation {
     /// Frames per second
+    #[serde(default = "default_fps")]
     pub fps: u32,
 
     /// Whether to loop the animation
@@ -24,6 +25,7 @@ pub struct Animation {
     pub loop_animation: bool,
 
     /// The frames of the animation
+    #[serde(default = "default_frames")]
     pub frames: Vec<Frame>,
 }
 
@@ -41,6 +43,14 @@ pub struct Frame {
 
 fn default_loop() -> bool {
     true
+}
+
+fn default_fps() -> u32 {
+    10
+}
+
+fn default_frames() -> Vec<Frame> {
+    Vec::new()
 }
 
 impl AnimationFile {
@@ -116,6 +126,28 @@ impl AnimationFile {
     pub fn should_loop(&self) -> bool {
         self.animation.loop_animation
     }
+
+    /// Load an animation from a file, creating a default one if it doesn't exist
+    pub fn load_or_create_default(path: impl AsRef<Path>) -> Result<Self> {
+        let path = path.as_ref();
+
+        if path.exists() {
+            Self::load(path)
+        } else {
+            let default_anim = Self::default();
+            default_anim.save(path)?;
+            Ok(default_anim)
+        }
+    }
+}
+
+impl Default for AnimationFile {
+    fn default() -> Self {
+        Self {
+            metadata: Metadata::default(),
+            animation: Animation::default(),
+        }
+    }
 }
 
 impl Animation {
@@ -147,6 +179,53 @@ impl Animation {
     }
 }
 
+impl Default for Animation {
+    fn default() -> Self {
+        // Create a simple "Hello, tapf!" animation with 3 frames
+        let frame1 = Frame::new(
+            r#"
+╔════════════════════════════════════╗
+║                                    ║
+║         Welcome to tapf!           ║
+║                                    ║
+║     Terminal Animation Format      ║
+║                                    ║
+╚════════════════════════════════════╝
+"#,
+        );
+
+        let frame2 = Frame::new(
+            r#"
+╔════════════════════════════════════╗
+║                                    ║
+║         Welcome to tapf!           ║
+║              ======                ║
+║     Terminal Animation Format      ║
+║                                    ║
+╚════════════════════════════════════╝
+"#,
+        );
+
+        let frame3 = Frame::new(
+            r#"
+╔════════════════════════════════════╗
+║                                    ║
+║         Welcome to tapf!           ║
+║                                    ║
+║     Terminal Animation Format      ║
+║              ============          ║
+╚════════════════════════════════════╝
+"#,
+        );
+
+        Self {
+            fps: default_fps(),
+            loop_animation: default_loop(),
+            frames: vec![frame1, frame2, frame3],
+        }
+    }
+}
+
 impl Frame {
     /// Create a new frame with ASCII art data
     pub fn new(data: impl Into<String>) -> Self {
@@ -161,6 +240,15 @@ impl Frame {
         Self {
             duration: Some(duration_ms),
             data: data.into(),
+        }
+    }
+}
+
+impl Default for Frame {
+    fn default() -> Self {
+        Self {
+            duration: None,
+            data: String::new(),
         }
     }
 }

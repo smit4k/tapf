@@ -10,7 +10,10 @@ fn main() -> tapf::Result<()> {
     // Print metadata
     println!("Animation: {}", anim.metadata.name);
     println!("Author: {}", anim.metadata.author);
-    println!("Dimensions: {}x{}", anim.metadata.width, anim.metadata.height);
+    println!(
+        "Dimensions: {}x{}",
+        anim.metadata.width, anim.metadata.height
+    );
     println!("FPS: {}", anim.animation.fps);
     println!("Loops: {}", anim.should_loop());
     println!("Frame count: {}", anim.frame_count());
@@ -25,3 +28,4 @@ fn main() -> tapf::Result<()> {
 
     Ok(())
 }
+
